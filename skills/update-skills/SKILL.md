@@ -15,7 +15,7 @@ Skills are the durable home for Brandon's workflow rules; memory files point to 
    - New facts that change existing rules (policy changes, new accounts, renamed things).
 2. For each finding, decide where it lives:
    - Matches an existing skill's domain → **edit that SKILL.md** (`C:\Users\bharv\.claude\skills\`). Check the directory for the current list rather than trusting a hardcoded one. Plugin-provided skills (e.g. `home-assistant-best-practices`) are read-only - they're overwritten on plugin updates, so their durable additions go in the matching personal skill instead.
-   - Truly global rule (applies in every folder, every repo) → `C:\Users\bharv\.claude\CLAUDE.md`, but only with Brandon's explicit yes - he approves each global rule individually.
+   - Truly global rule (applies in every folder, every repo) → `C:\Users\bharv\.claude\CLAUDE.md`, but only with Brandon's explicit yes - he approves each global rule individually. When proposing one, lead with the concrete failure it prevents in plain terms ("commits land garbled on GitHub"), not the mechanism - he'll ask "why does this matter" until the failure story is clear.
    - Standing rule with no skill home → memory `feedback` file (with Why / How to apply), or propose a new skill if it's a whole workflow.
    - One-off detail for an ongoing project → memory `project` file. Note memory is per-project-dir (the store that loads depends on where the session started); skills and CLAUDE.md are global.
 3. When a skill and a memory file overlap, the skill is canonical - update both, keep the memory file as a short pointer.
