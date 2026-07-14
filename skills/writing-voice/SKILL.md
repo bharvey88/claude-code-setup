@@ -16,7 +16,8 @@ General prose rules. They apply to everything user-facing, personal or work. Re-
 ### Banned tells (word/phrase level)
 
 - "delve", "realm", "underscore", "meticulous", "crucial", "robust", "seamless", "leverage", "game-changer", "elevate", "supercharge"
-- "it's not X, it's Y" / "isn't just X" negative-parallel constructions
+- "it's not X, it's Y" / "isn't just X" negative-parallel constructions, and "no X, no Y, no Z" triplet denials
+- "I'm most proud of..." and similar canned-reflection phrases
 - "here's what actually...", "here's the thing", "the best part?", "let's dive in", "let's explore", "in today's...", "rapidly evolving", "whether you're a..."
 - Rhetorical-question hooks and triadic punchlines
 - "serves as", "stands as", "acts as" used to dodge a plain "is"

@@ -10,7 +10,7 @@ The end-to-end path for a firmware YAML change in an Apollo product repo: pick t
 ## Before you touch anything
 
 - **Is the repo real and in-scope?** Released repos: AIR-1, MSR-1, MSR-2, MTR-1, R_PRO-1, PLT-1, TEMP-1, BTN-1, PUMP-1, H-1, H-2, CAST-1. **Do NOT touch TEMP_PRO-1, RLY-1, or TEMP_PROJECT-1** (not shipped products) unless Brandon explicitly says so. See memory `apollo-product-repos`.
-- **Write access:** `bharvey88` can push to most Apollo repos except **H-2** (use a fork there). Firmware PRs are cut from Brandon's fork against `beta`.
+- **Write access:** `bharvey88` can push to most ApolloAutomation repos, so PRs usually branch directly on the Apollo repo; **H-2** has no write access (fork required). Local clones/worktrees are inconsistent about which remote is which (`origin` is sometimes the fork) - run `git remote -v` and confirm you're pushing to the remote the PR head actually lives on, or you'll create a stray fork branch instead of updating the PR.
 - **Which branch?** A firmware change → PR to **`beta`**, then STOP (a maintainer merges, never self-merge). A **workflow-only** change (`.github/workflows/*`, no firmware published) → target **`main`**, because `pull_request_target` / default-branch workflows only take effect on `main`.
 
 ## Repo structure
@@ -25,6 +25,9 @@ Firmware lives in `Integrations/ESPHome/`:
 ## Editing rules (these turn CI red if you miss them)
 
 - **Don't create a new YAML file** to add behavior. Edit the existing file or use `!extend`. Brandon: "im not adding a separate yaml file that is stupid."
+- **`!extend` is only for by-id list entries** (or adding to existing lists like `on_boot`). Top-level blocks (`esp32`, `wifi`, `logger`) override without it. Never work around a merge problem with a "mirror sensor" duplicate.
+- **Lambdas containing `: `** (ternaries, etc.) must use block-scalar form (`- lambda: |-`); the inline form fails YAML parse.
+- **Start from stock/vendor configs.** Use Apollo/vendor defaults as-is; propose RF/scan/tuning changes only when a real problem shows up.
 - **Use built-in ESPHome components, not hand-rolled lambdas**, per each repo's `AGENTS.md`.
 - **Verify accessors against the `dev`/`beta` branch, not stable.** CI compiles every config against stable + beta + dev, so a member that's deprecated-but-present on stable fails the beta/dev legs. Known trap: `select` state is `.current_option()`, not `.state` (removed 2026.7.0). `sensor`/`number`/`switch`/`text` `.state` are fine - don't blanket-rewrite. See `esphome-avoid-deprecated-api`.
 - **`esphome: on_boot` must be list form** (`- priority: ...`) in Core.yaml, not mapping form. Package merge concatenates list form and replaces mapping form, so mapping-form boot logic silently vanishes per variant.
@@ -56,10 +59,11 @@ Look for `INFO Configuration is valid!` on each. `secrets.yaml` warnings are exp
 - **`esphome config` only renders/validates - it does NOT download the toolchain, so it's fast.** That is the assistant's job.
 - **`esphome compile`/`esphome run` is the slow hardware path.** Don't run it as validation.
 - No standing esphome venv exists. If the system `esphome` is wrong/locked, make a throwaway venv and pin the exact version (`python -m venv <scratch>; ... pip install esphome==<ver>`). CI is the authoritative compile anyway; if local build fights you, just get the YAML right and let CI compile.
+- **Never run concurrent PlatformIO/ESPHome builds** - parallel builds corrupt the shared toolchain. Sequential only.
 
 ## Hardware testing is Brandon's job
 
-Config validation is yours. **Flashing, `esphome compile`/`run`, upload, and serial monitoring are Brandon's** - teach the steps, don't run them, don't probe COM ports. See memory `flashing-is-brandons-job`. Produce a hardware-test checklist for him at the end, and test on the `bharvey88` fork first before the ApolloAutomation PR.
+Config validation is yours. **Flashing, `esphome compile`/`run`, upload, and serial monitoring are Brandon's** - teach the steps, don't run them, don't probe COM ports (also a global rule in `~/.claude/CLAUDE.md`). Produce a hardware-test checklist for him at the end, and test on the `bharvey88` fork first before the ApolloAutomation PR.
 
 ## Submit
 

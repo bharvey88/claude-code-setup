@@ -14,9 +14,10 @@ Skills are the durable home for Brandon's workflow rules; memory files point to 
    - A workflow step that differed from what a skill currently says.
    - New facts that change existing rules (policy changes, new accounts, renamed things).
 2. For each finding, decide where it lives:
-   - Matches an existing skill's domain → **edit that SKILL.md** (`C:\Users\bharv\.claude\skills\`). Check the directory for the current list rather than trusting a hardcoded one; as of 2026-07-04 it holds `apollo-docs`, `apollo-writing-style`, `blog`, `close`, `ha-debug`, `update-skills`, `upstream-contrib`, `writing-voice`.
+   - Matches an existing skill's domain → **edit that SKILL.md** (`C:\Users\bharv\.claude\skills\`). Check the directory for the current list rather than trusting a hardcoded one. Plugin-provided skills (e.g. `home-assistant-best-practices`) are read-only - they're overwritten on plugin updates, so their durable additions go in the matching personal skill instead.
+   - Truly global rule (applies in every folder, every repo) → `C:\Users\bharv\.claude\CLAUDE.md`, but only with Brandon's explicit yes - he approves each global rule individually.
    - Standing rule with no skill home → memory `feedback` file (with Why / How to apply), or propose a new skill if it's a whole workflow.
-   - One-off detail for an ongoing project → memory `project` file.
+   - One-off detail for an ongoing project → memory `project` file. Note memory is per-project-dir (the store that loads depends on where the session started); skills and CLAUDE.md are global.
 3. When a skill and a memory file overlap, the skill is canonical - update both, keep the memory file as a short pointer.
 4. If a new rule contradicts an existing skill/memory line, fix the old text - don't leave both versions.
 5. Show Brandon a short list of what you changed (one line per edit). Don't paste full file contents unless he asks.

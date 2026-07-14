@@ -15,7 +15,9 @@ These live in [`skills/`](skills/). Each is a single `SKILL.md` with YAML frontm
 | [apollo-writing-style](skills/apollo-writing-style/SKILL.md) | Product-specific formatting and naming: verbatim UI labels, app naming, sidebar structure, for anything user-facing. |
 | [writing-voice](skills/writing-voice/SKILL.md) | General prose voice and anti-AI-tells rules for any writing, from blog posts to issues to commit messages. |
 | [blog](skills/blog/SKILL.md) | Turn a session or project into a published blog post: structure, voice, and the publish steps. |
-| [ha-debug](skills/ha-debug/SKILL.md) | Debug Home Assistant behavior. A notification that fired or didn't, an automation that never ran, a sensor gone unavailable. |
+| [ha-debug](skills/ha-debug/SKILL.md) | Debug Home Assistant behavior. A notification that fired or didn't, an automation that never ran, a sensor gone unavailable. Carries the trap list that debugging sessions actually hit. |
+| [ha-automations](skills/ha-automations/SKILL.md) | Author Home Assistant automations, scripts, and helpers with my conventions: aliases everywhere, the right mode, labels applied, near-duplicates consolidated, verified against traces. |
+| [ha-dashboards](skills/ha-dashboards/SKILL.md) | Build and edit Lovelace dashboards: preview-then-swap for visual changes, compact card recipes, and the dashboard-tool gotchas. |
 | [apollo-yaml](skills/apollo-yaml/SKILL.md) | Walk an ESPHome firmware YAML change through an Apollo device repo: which file to edit, the traps that redden CI, version bump, local validation. |
 | [upstream-contrib](skills/upstream-contrib/SKILL.md) | File issues and PRs to upstream repos: show before submit, one change per PR, per-destination attribution rules. |
 | [close](skills/close/SKILL.md) | End-of-session wrap-up. Square away memory, skills, and repo state before stopping. |

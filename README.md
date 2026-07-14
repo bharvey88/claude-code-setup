@@ -6,7 +6,7 @@ layer I built on top of it, shared so you can lift the parts that fit your own w
 
 Two things live here:
 
-1. **[`skills/`](skills/)** holds nine skills I wrote. Each one is a workflow Claude loads
+1. **[`skills/`](skills/)** holds eleven skills I wrote. Each one is a workflow Claude loads
    automatically when the task matches, so I don't have to re-explain how I like things done.
 2. **[`memory-example/`](memory-example/)** is a sanitized demo of my file-based memory
    pattern, which is the part most people haven't seen before.
@@ -30,7 +30,15 @@ The ones in this repo:
 - **writing-voice** is my prose voice and anti-AI-tells rules. I run it on everything public,
   including this README.
 - **blog** turns a session into a finished post.
-- **ha-debug** works backward from a Home Assistant symptom to the cause.
+- **ha-debug** works backward from a Home Assistant symptom to the cause, with a list of
+  the traps that have actually bitten me (template coercion, cached blueprints, cards that
+  spin forever on entities with no recorder history).
+- **ha-automations** carries my Home Assistant automation conventions: aliases on
+  everything, the right mode for the job, labels applied, near-duplicates consolidated into
+  one automation, verified against traces before calling it done.
+- **ha-dashboards** builds my Lovelace dashboards the way I like them: compact cards,
+  preview cards added next to the original so I can compare live before anything gets
+  replaced, and the card recipes that survived my own A/B testing.
 - **apollo-yaml** walks a firmware YAML change through an Apollo device repo, from picking the
   right file to keeping the build green.
 - **upstream-contrib** is how I file issues and PRs to other people's repos without being
@@ -82,6 +90,14 @@ turns out wrong, you delete the file instead of editing around it. See
 Why bother? A flat memory file rots. A per-fact folder with a loaded index stays scannable,
 stays current, and lets Claude pull in exactly the facts a task needs without dragging the
 rest along.
+
+One thing I learned the hard way: memory is per project folder. Launch Claude Code from a
+different directory and you get a different memory store, so rules I thought were standing
+turned out to only exist in one folder. The fix is a split. Rules that apply everywhere
+(commit identity, voice, the hard nos) go in one global `~/.claude/CLAUDE.md`, workflows go
+in skills since those are global too, and the per-project memory keeps only facts about that
+project. I consolidated four divergent stores down to that layout and it removed a whole
+class of "but I told you this already" moments.
 
 ## Using this
 

@@ -21,6 +21,8 @@ Base line is always `Disclosure: I work for Apollo Automation.` Add a short cont
 
 Posts document something Brandon actually did. He often says "look at our previous chats about X" - search session transcripts and memory for the real details (actual numbers, actual commands, actual mistakes). Never pad with generic advice he didn't live through. The mistakes and dead ends ARE the content ("a couple things that wasted my time so they don't waste yours").
 
+Drafts started on Brandon's laptop arrive under-cooked - that machine doesn't have these skills - so give any laptop-drafted post a full voice pass here before treating it as near-final.
+
 ## Phase 2: Voice (the part he rewrites every time it's wrong)
 
 Load `writing-voice` for the general rules (no em dashes, banned tells, structural tells, the two-pass de-slop). The rules below are blog-specific on top of that. This is a personal blog, not Apollo, so it does NOT use `apollo-writing-style`.
