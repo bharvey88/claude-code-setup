@@ -16,6 +16,7 @@ These live in [`skills/`](skills/). Each is a single `SKILL.md` with YAML frontm
 | [writing-voice](skills/writing-voice/SKILL.md) | General prose voice and anti-AI-tells rules for any writing, from blog posts to issues to commit messages. |
 | [blog](skills/blog/SKILL.md) | Turn a session or project into a published blog post: structure, voice, and the publish steps. |
 | [ha-debug](skills/ha-debug/SKILL.md) | Debug Home Assistant behavior. A notification that fired or didn't, an automation that never ran, a sensor gone unavailable. |
+| [apollo-yaml](skills/apollo-yaml/SKILL.md) | Walk an ESPHome firmware YAML change through an Apollo device repo: which file to edit, the traps that redden CI, version bump, local validation. |
 | [upstream-contrib](skills/upstream-contrib/SKILL.md) | File issues and PRs to upstream repos: show before submit, one change per PR, per-destination attribution rules. |
 | [close](skills/close/SKILL.md) | End-of-session wrap-up. Square away memory, skills, and repo state before stopping. |
 | [update-skills](skills/update-skills/SKILL.md) | Fold new corrections and preferences from a session back into the right `SKILL.md` files and memory. |

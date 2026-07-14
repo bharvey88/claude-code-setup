@@ -33,18 +33,7 @@ Feature branch → PR to **`beta`** → **STOP**. A maintainer merges. Never sel
 
 Never name a rolling release tag the same as a branch (e.g. tag `beta` alongside branch `beta`). ESPHome remote-package `ref:` and bare `git fetch origin <name>` resolve tags before branches, so the tag shadows the branch and freezes users' remote packages at the tag's commit. Apollo convention: the rolling beta pre-release tag is **`beta-fw`**. Also: `gh release create <tag>` without `--target` tags default-branch HEAD, not the branch you built from.
 
-### Firmware version bump (any PR that changes the built firmware)
+### Editing the firmware YAML itself
 
-Bump the `version:` substitution in `Core.yaml` (it feeds both device variants). Format is date-based **`YY.M.D.N`**, no zero-padding.
-
-- The date is **always today's actual date** (the date you make the change) — re-check the current date, don't reuse the date from the existing version string.
-- **`N` is the same-day bump count and resets to `1` every new day.** Do NOT carry `N` forward across a date boundary. If beta already shows `26.6.17.1` from yesterday and you're bumping today (the 18th), it's `26.6.18.1`, not `26.6.17.2`. `N` only goes to `2`+ for a second bump on the *same* day.
-- Cosmetic/no-publish PRs (whitespace, dedupe with identical compiled output) don't need a bump — check "Other - Does not publish" instead.
-
-## ESPHome lambda/code gotchas (deprecations that cause build warnings)
-
-When writing C++ lambdas in ESPHome YAML, prefer the current accessor so compiles stay warning-free:
-
-- **`select`**: read the value with **`.current_option()`**, not `.state`. `esphome::select::Select::state` is deprecated and slated for removal in **2026.7.0** (warning: `'esphome::select::Select::state' is deprecated`).
-- **`sensor` and `number` `.state` are NOT deprecated** — only `select` changed. Don't blanket-rewrite every `.state`.
+Version bump, which file to edit (`Core.yaml` vs per-variant), ESPHome deprecated-API traps, `on_boot` merge form, flash-size ceiling, and local `esphome config` validation all live in the **`apollo-yaml`** skill. Use it for any change to the built firmware; come back here for the PR submit mechanics above.
 

@@ -6,7 +6,7 @@ layer I built on top of it, shared so you can lift the parts that fit your own w
 
 Two things live here:
 
-1. **[`skills/`](skills/)** holds eight skills I wrote. Each one is a workflow Claude loads
+1. **[`skills/`](skills/)** holds nine skills I wrote. Each one is a workflow Claude loads
    automatically when the task matches, so I don't have to re-explain how I like things done.
 2. **[`memory-example/`](memory-example/)** is a sanitized demo of my file-based memory
    pattern, which is the part most people haven't seen before.
@@ -31,6 +31,8 @@ The ones in this repo:
   including this README.
 - **blog** turns a session into a finished post.
 - **ha-debug** works backward from a Home Assistant symptom to the cause.
+- **apollo-yaml** walks a firmware YAML change through an Apollo device repo, from picking the
+  right file to keeping the build green.
 - **upstream-contrib** is how I file issues and PRs to other people's repos without being
   the annoying contributor.
 - **close** handles end-of-session cleanup.
