@@ -10,7 +10,8 @@ The end-to-end path for a firmware YAML change in an Apollo product repo: pick t
 ## Before you touch anything
 
 - **Is the repo real and in-scope?** Released repos: AIR-1, MSR-1, MSR-2, MTR-1, R_PRO-1, PLT-1, TEMP-1, BTN-1, PUMP-1, H-1, H-2, CAST-1. **Do NOT touch TEMP_PRO-1, RLY-1, or TEMP_PROJECT-1** (not shipped products) unless Brandon explicitly says so. See memory `apollo-product-repos`.
-- **Write access:** `bharvey88` can push to most ApolloAutomation repos, so PRs usually branch directly on the Apollo repo; **H-2** has no write access (fork required). Local clones/worktrees are inconsistent about which remote is which (`origin` is sometimes the fork) - run `git remote -v` and confirm you're pushing to the remote the PR head actually lives on, or you'll create a stray fork branch instead of updating the PR.
+- **Write access:** `bharvey88` can push to most ApolloAutomation repos, so PRs usually branch directly on the Apollo repo; **H-2** has no write access (fork required), and the org's **esphome fork (`ApolloAutomation/esphome`) is pull-only** for Brandon - he CAN create new org repos though (that's how `ApolloAutomation/esphome-components` came to exist, 2026-07-21). New org repos get a ruleset requiring changes to `main` via PR (initial push exempt). Local clones/worktrees are inconsistent about which remote is which (`origin` is sometimes the fork) - run `git remote -v` and confirm you're pushing to the remote the PR head actually lives on, or you'll create a stray fork branch instead of updating the PR.
+- **Forked ESPHome component overrides** ship to users via `ApolloAutomation/esphome-components` (`components/<name>/` layout, consumed with `external_components: source: github://ApolloAutomation/esphome-components@main`) - vendored copies of upstream components carrying a not-yet-released fix, each removed once the fix ships in an esphome release. Keep the vendored copy byte-identical to the upstream PR branch (sync every review-round change via PR). Pull `sensirion_common` alongside `sen5x`-style components whose helpers live there.
 - **Which branch?** A firmware change → PR to **`beta`**, then STOP (a maintainer merges, never self-merge). A **workflow-only** change (`.github/workflows/*`, no firmware published) → target **`main`**, because `pull_request_target` / default-branch workflows only take effect on `main`.
 
 ## Repo structure
@@ -67,7 +68,14 @@ Config validation is yours. **Flashing, `esphome compile`/`run`, upload, and ser
 
 ## Submit
 
-Labels are applied at PR create (`gh pr create ... --label new-feature|bugfix|breaking-change`); release-drafter builds the notes off those labels, and a `label-check` workflow enforces them. Then follow **`upstream-contrib`** for the actual submit: verify target repo, show the full PR title/body and get approval, keep every PR-template checkbox, commit with `git commit -F <ascii file>` (Apollo footer, no `Co-Authored-By`), base `beta`, head `bharvey88:<branch>`.
+Labels are applied at PR create (`gh pr create ... --label new-feature|bugfix|breaking-change`); release-drafter builds the notes off those labels, and a `label-check` workflow enforces them. **`breaking-change` means the firmware itself behaves differently for normal (precompiled/OTA) users.** A `min_version` bump alone is NOT breaking (Brandon, 2026-07-23, AIR-1 #115: precompiled users are unaffected; document the requirement in a body bullet instead).
+
+**Release cycle (beta -> main), learned on AIR-1 26.7.23.1:**
+- Release PR: head `beta`, base `main`, title `Release <version> - <short summary>`, body opens "Merges beta into main for the <version> release. Changes include:" with bold-item bullets citing PR numbers (model: AIR-1 #89/#115). Merge commit, never squash.
+- **beta is push-protected fleet-wide** (changes via PR), so a main->beta reconciliation goes through a `beta-sync` branch + PR (AIR-1 #116), not a direct push.
+- **Merge order:** any open PR touching files that exist on both branches gets retargeted to beta and merged BEFORE the release PR, so the release carries it and main/beta never diverge (Brandon, AIR-1 #112: "it will then make beta and main out of sync"). Retargeted stale branches usually need a merge-from-beta to clear conflicts.
+- Sync-conflict resolutions reference (AIR-1 #116): keep beta's newer version substitution, keep list-form on_boot folding in main-side fixes, keep label-check standalone (never duplicated inline in ci.yml).
+- build-beta.yml has a `paths: Integrations/ESPHome/**` filter: workflow-only merges to beta do not build or move the beta-fw tag; the tag tracks the last commit that produced assets, which is correct. Then follow **`upstream-contrib`** for the actual submit: verify target repo, show the full PR title/body and get approval, keep every PR-template checkbox, commit with `git commit -F <ascii file>` (Apollo footer, no `Co-Authored-By`), base `beta`, head `bharvey88:<branch>`.
 
 ## Quick reference
 
