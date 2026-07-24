@@ -18,6 +18,7 @@ Reconstruct what the session touched, grounded in tools, not recall:
 ## Phase 2: Memory and skill hygiene
 
 - **REQUIRED SUB-SKILL:** run `update-skills` for corrections and workflow changes from this session.
+- **Sync the public skills mirror.** After update-skills settles the edits, refresh `bharvey88/claude-code-setup` (clone at `C:\Users\bharv\development\claude-code-setup`). Run `bash sync-skills.sh` from the repo root: it copies any drifted `SKILL.md` in and auto-scrubs known maintainer/coworker names to roles (the name map lives in the script). If it warns that an **unmapped** name slipped through, add that name to the script's map or hand-scrub it before committing; Brandon's own name, handles, and bot names stay. Then `git diff -- skills/`, commit + push to `main` (no Claude footer, ID-prefixed noreply email). It's a full sweep of all skills, so it also catches drift from earlier sessions where the sync was skipped. Nothing changed after scrub = skip cleanly, no commit.
 - Write memory files only for durable facts the repo itself doesn't record. A zero-note close is a valid close: never write a memory so the summary has content.
 - Fix stale memories now: anything renamed, moved, finished, or contradicted this session gets its memory file and its MEMORY.md line updated (or deleted) before stopping. Don't leave a known-wrong note for the next session to trip on.
 
