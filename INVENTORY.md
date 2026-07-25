@@ -42,7 +42,9 @@ their own sources. This is the set I actually reach for.
 
 **Process and workflow.** superpowers is the backbone here: brainstorming, writing-plans,
 test-driven-development, systematic-debugging, verification-before-completion,
-requesting and receiving code review, git worktrees, and more.
+requesting and receiving code review, git worktrees, and more. ralph-wiggum runs a prompt
+on a loop until the work is actually done, which suits long grinds like sweeping a fix
+across a fleet of repos.
 
 **Guardrails.** hookify turns observed mistakes into preventive hooks. security-guidance
 screens risky commands before they run. Both fire constantly and I never think about them,

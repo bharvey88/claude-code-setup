@@ -56,9 +56,81 @@ for d in "$REPO_SKILLS"/*/; do
   fi
 done
 
+# --- plugin-inventory drift check -----------------------------------------
+# INVENTORY.md names the plugins by hand, so it goes stale whenever one is
+# enabled or disabled - a change this script otherwise never sees, because it
+# only copies SKILL.md files. Compare the enabled set in settings.json against
+# the names INVENTORY.md mentions, and warn in both directions. Warning only:
+# never edit INVENTORY.md from here, the prose around each name is hand-written.
+SETTINGS="${CLAUDE_SETTINGS:-$HOME/.claude/settings.json}"
+INVENTORY="INVENTORY.md"
+
+# Plugin directory name -> the name INVENTORY.md uses, where they differ.
+# Add a line here when a plugin is written up under its skill's name instead.
+alias_for() {
+  case "$1" in
+    home-assistant-skills) echo "home-assistant-best-practices" ;;
+    *)                     echo "$1" ;;
+  esac
+}
+
+# Bare plugin names from the enabledPlugins block, by boolean value.
+# Keys are "<plugin>@<marketplace>"; the same plugin can appear under two
+# marketplaces, so dedupe on the bare name.
+plugins_where() {
+  sed -n '/"enabledPlugins"/,/}/p' "$SETTINGS" 2>/dev/null \
+    | grep -oE "\"[^\"]+@[^\"]+\"[[:space:]]*:[[:space:]]*$1" \
+    | sed -E 's/^"([^@"]+)@.*/\1/' | sort -u || true
+}
+
+# Case-insensitive fixed-string match. Deliberately NOT `grep -iF`: that flag
+# pair aborts (SIGABRT, exit 134) in GNU grep 3.0 under MSYS/git-bash, with or
+# without -q and in any locale. Lowercasing both sides keeps -F, so a plugin
+# name containing regex metacharacters still matches literally.
+lc() { tr '[:upper:]' '[:lower:]'; }
+mentioned_in_inventory() {
+  printf '%s' "$inventory_lc" | grep -qF -- "$(printf '%s' "$1" | lc)"
+}
+
+inventory_drift=0
+if [ -f "$SETTINGS" ] && [ -f "$INVENTORY" ]; then
+  # Search ONLY the plugin section, not the whole file: prose elsewhere
+  # contains substrings that collide with plugin names (a github.com link
+  # matches 'github'), which would report drift that isn't there.
+  inventory_lc=$(sed -n '/^## Plugins I layer on/,/^## /p' "$INVENTORY" | lc)
+  if [ -z "$inventory_lc" ]; then
+    echo "  !! could not find the '## Plugins I layer on' section in $INVENTORY"
+    inventory_drift=1
+  fi
+  # Space-delimited on one line, so the membership test below can match
+  # ' name ' - sort -u returns newline-separated, which never would.
+  enabled=$(plugins_where true | tr '\n' ' ')
+  # Enabled but unlisted: INVENTORY claims to be the set actually in use.
+  for p in $enabled; do
+    if ! mentioned_in_inventory "$(alias_for "$p")"; then
+      echo "  !! '$p' is enabled but INVENTORY.md never mentions it"
+      inventory_drift=1
+    fi
+  done
+  # Listed but switched off. A plugin enabled under one marketplace and
+  # disabled under another is still in use, so skip anything in $enabled.
+  for p in $(plugins_where false); do
+    case " $enabled " in *" $p "*) continue ;; esac
+    if mentioned_in_inventory "$(alias_for "$p")"; then
+      echo "  !! '$p' is disabled but INVENTORY.md still lists it"
+      inventory_drift=1
+    fi
+  done
+else
+  echo "  (skipped plugin-inventory check: settings.json or INVENTORY.md not found)"
+fi
+
 echo
 if [ "$warned" -eq 1 ]; then
   echo ">>> Fix the unmapped name(s) above before committing."
+fi
+if [ "$inventory_drift" -eq 1 ]; then
+  echo ">>> INVENTORY.md disagrees with your enabled plugins - reconcile before committing."
 fi
 if [ "$changed" -eq 0 ]; then
   echo "Nothing changed - mirror already current."
