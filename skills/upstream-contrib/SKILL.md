@@ -41,6 +41,26 @@ description: Workflow for filing GitHub issues and PRs to upstream/third-party r
 - **AGENTS.md mandates the walrus for config access in `to_code`:** `if (x := config.get(CONF_X)) is not None: cg.add(var.set_x(x))` - the `if CONF_X in config:` + `config[CONF_X]` form is their documented "Bad" example. Read the repo's AGENTS.md before pushing; it is long and opinionated (heap rules, container choices, callback patterns).
 - **Review babysitting flow:** after fixing a review comment, reply in-thread ("Done in <sha>") and resolve the thread via GraphQL `resolveReviewThread`; leave reviewer "followup PR" notes unresolved as their marker. Fork-PR authors CANNOT re-request review via REST/GraphQL (404/FORBIDDEN) - only the UI button next to the reviewer's name, which is Brandon's click. The Kōan bot (`esphbot`) re-reviews on every push and its non-blocking suggestions may be declined with a short rationale comment; never invoke `@esphbot rebase` (it pushes its own fixes). When a bot suggestion contradicts what a human maintainer asked for in the same review, the human wins.
 
+### Hardware-testing someone else's esphome PR (learned 2026-07-25, #17850)
+
+Maintainers sometimes ask Brandon to clear a PR by testing it on real hardware. Flashing and serial are Brandon's job; building, config design and the writeup are Claude's.
+
+- **Build setup:** `git worktree add` the PR head, put the test YAML *outside* the worktree (so `.esphome/` build dirs don't dirty it), and run `python -m esphome compile <cfg>` with cwd set to the worktree - the local source then shadows the installed `esphome` package (banner shows the dev version, confirming it took).
+- **Memory delta:** only quote a dev-vs-PR RAM/flash diff after checking `git merge-base origin/dev <head>` equals dev HEAD; otherwise the delta silently includes other commits. Build the identical YAML in a second worktree at `origin/dev`. A compile-only build on an unaffected platform (esp8266) coming out byte identical is cheap, strong evidence.
+- **Prove the code path is actually live**, not silently compiled out: grep the *generated* `.esphome/build/<name>/src/esphome/core/defines.h` for the PR's define plus whatever platform gate gates it (e.g. `USE_WIFI_SCAN_RESULTS_LOCK` + `ESPHOME_THREAD_MULTI_ATOMICS`, not `ESPHOME_THREAD_SINGLE`).
+- **`esphome run` picks the wrong upload target.** `captive_portal` auto-injects `ota: platform: web_server` into the resolved config, so the device chooser offers an OTA entry that dies with "Cannot upload via web_server OTA: the web_server component is not configured". Always pass `--device COMx`. Check with `esphome config` when an unexpected upload path appears.
+- **Silent serial on C3/S3/C6/H2/P4:** the logger defaults to `hardware_uart: USB_SERIAL_JTAG`. On a board whose USB port is a CP210x/CH340 bridge that means no output at all; set `hardware_uart: UART0`. Read the port's driver name in Device Manager to tell which.
+- **Log to a file so Brandon doesn't hand-paste:** `esphome logs ... | Tee-Object -FilePath x.log` (writes UTF-16, so parse it with `Get-Content`/`Select-String`, not `grep`), and have any load script `Start-Transcript` to a file.
+
+**Wifi/captive-portal test rigs specifically.** Four harness mistakes cost four reflashes on #17850; check the state machine before designing the config, not after:
+
+- A **nonexistent SSID** never appears in a scan, so retry treats it as hidden and blind-retries direct connects *without rescanning*. No scans means no writer activity.
+- A **real SSID with a wrong password** is worse: every failed 4-way handshake kicks all fallback-AP clients off, stranding sockets.
+- **While the captive portal is active, ESPHome deliberately suppresses scanning** (`determine_next_phase_` returns `RETRY_HIDDEN` once `has_completed_scan_after_captive_portal_start_` is set; scanning blocks portal DNS/HTTP). Stock behavior is exactly one scan, at portal start. Forcing scans from a test lambda works but makes the AP nearly unusable, since the radio goes off channel and clients time out.
+- **Unpaced HTTP load exhausts the IDF http server's socket pool** and it refuses accepts with `httpd_accept_conn: error in accept (23)` (lwIP `ENFILE`), which stops the endpoint under test from being exercised at all. Pace to ~4 req/s with `Connection: close` (`Invoke-WebRequest -DisableKeepAlive`).
+
+**Writing the report:** say what the test proves *and what it doesn't*. Black-box hammering cannot prove a use-after-free is gone; claim the working behavior (endpoint serves correct data, no deadlock between the two tasks, no regression, memory delta) and state the limit in one sentence. Include harness artifacts that turned out not to be PR bugs, flagged as such, rather than hiding them. Never quote a request tally from an aborted run - drop the number instead of inventing one.
+
 ### esphome docs (esphome.io)
 
 - The docs repo is now **`esphome/esphome.io`** (Astro/Starlight, `.mdx` under `src/content/docs/components/`), NOT the old Sphinx `esphome-docs`. Brandon's fork is still named **`bharvey88/esphome-docs`** (forked before the rename; `gh repo fork` reports "already exists"). Default branch is **`current`**.
