@@ -44,23 +44,22 @@ their own sources. This is the set I actually reach for.
 test-driven-development, systematic-debugging, verification-before-completion,
 requesting and receiving code review, git worktrees, and more.
 
+**Guardrails.** hookify turns observed mistakes into preventive hooks. security-guidance
+screens risky commands before they run. Both fire constantly and I never think about them,
+which is the point.
+
 **Code review.** pr-review-toolkit gives me `review-pr` plus specialized reviewer agents for
-silent failures, type design, test coverage, and comment accuracy. coderabbit and qodo cover
-third-party AI review.
+silent failures, type design, test coverage, and comment accuracy.
 
-**Web and research.** firecrawl handles scrape, crawl, search, map, monitor, download, parse,
-and interactive browser sessions. deep-research does fan-out web search with adversarial
-verification and cited synthesis.
-
-**Design and build.** figma covers design-to-code, Code Connect, and library generation.
-frontend-design sets aesthetic direction for new UI. dataviz and artifact-design are the
-chart and artifact design systems.
+**Browser and UI.** playwright drives a real browser for verifying what actually rendered,
+not what I assumed rendered. frontend-design sets aesthetic direction for new UI.
 
 **Home Assistant.** home-assistant-best-practices pushes native constructs over templates,
 `entity_id` over `device_id`, correct automation modes, and dashboard guidance.
 
-**Meta and tooling.** plugin-dev scaffolds plugins, skills, agents, commands, and hooks.
-hookify turns observed mistakes into preventive hooks.
+I periodically audit which of these I actually invoke and turn off the ones I don't. A plugin
+that sits unused still spends context on every session, so the list stays shorter than the
+list of plugins that looked appealing at install time.
 
 ## How to use this repo
 
