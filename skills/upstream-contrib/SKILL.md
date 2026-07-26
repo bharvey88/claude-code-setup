@@ -22,8 +22,15 @@ description: Workflow for filing GitHub issues and PRs to upstream/third-party r
 1. Verify the correct target repo (backend vs frontend, e.g. device-builder vs esphome) before drafting.
 2. Read the repo's `CONTRIBUTING.md` / `agents.md` / PR template and follow it. **Keep every PR template header, checkbox, and prompt - fill them in, never delete them.**
 3. Work from Brandon's fork (`bharvey88`). Force-push (`--force-with-lease`, fork remote only) is fine **before review starts**. **Once anyone has begun reviewing a PR, never force-push it.** A force-push makes a reviewer re-figure-out what changed, so the PR gets set aside in favor of the hundreds that didn't. To bring an out-of-date branch current or fix a build break mid-review, **merge the base branch in** (`git merge origin/dev`) or **add a commit on top** — a merge/normal commit shows the diff clearly. Rebase-and-force only on a branch no one is reviewing yet.
-4. For screenshots/GIFs: leave a placeholder like `<!-- Brandon: drop image here -->` - he uploads media manually after posting.
+4. For screenshots/GIFs: leave a placeholder like `<!-- Brandon: drop image here -->` - he uploads media manually after posting. There is no CLI/API path to PR-body attachments; do NOT work around it by pushing the media to a fork branch and embedding the raw URL - Brandon rejected that (2026-07-26, WLED-Docs #347): the file outlives on his fork and breaks if the branch goes. Placeholder + his drag-and-drop, always.
 5. After submitting, babysit follow-ups when asked: bring a stale branch current with a merge commit (not a rebase-force — see step 3), CI failures via `gh run view --log-failed`.
+6. Fixing someone ELSE's open PR (no push perms as outside contributor, even with allow-edits): post a review comment with a ```suggestion``` block via `gh api repos/OWNER/REPO/pulls/N/comments --input body.json` (fields: body, commit_id = PR head sha, path, side: RIGHT, line). Author or any maintainer commits it with one click. Get the line number from the head-ref file content, not the diff hunk.
+7. Feature-enable PRs to docs repos: Brandon splits capability from adoption - one PR enables the feature (config/CSS only, zero content pages), a follow-up PR changes the docs to use it ("i dont want to bundle it with any added annotations", WLED-Docs #347/#348). Offer this split whenever a docs PR would mix a new mechanism with content that uses it.
+
+### gh CLI on Windows PowerShell 5.1 (bit us 3x, 2026-07)
+
+- `--jq` expressions containing spaces get split into multiple args by PS native-arg passing ("accepts 1 arg(s), received N"), and embedded double quotes inside single-quoted args get eaten (jq parse errors). Don't fight the quoting: pipe `gh api ... | ConvertFrom-Json` and filter in PowerShell.
+- POST/PUT bodies: build a hashtable, `ConvertTo-Json`, write it with `[IO.File]::WriteAllText(path, $json, (New-Object Text.UTF8Encoding($false)))`, then `gh api --input path`. `Out-File -Encoding utf8` writes a BOM in PS 5.1 and GitHub rejects the JSON (HTTP 400 "Problems parsing JSON").
 
 ### esphome/esphome specifics (learned 2026-07)
 
