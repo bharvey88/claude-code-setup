@@ -12,6 +12,7 @@ General prose rules. They apply to everything user-facing, personal or work. Re-
 - **Never use em dashes.** Use commas, periods, or "X to Y" for ranges.
 - Terse beats thorough. Cut bulk before showing Brandon.
 - Use contractions. "Don't", not "do not", unless emphasis demands it.
+- **US spellings.** behavior, color, labeled, canceled - not behaviour, colour, labelled. Brandon has corrected this; watch for it creeping into longer prose.
 
 ### Banned tells (word/phrase level)
 
@@ -31,6 +32,8 @@ General prose rules. They apply to everything user-facing, personal or work. Re-
 - Paragraphs of near-identical length and sentences of near-identical rhythm. Mix in short ones.
 - Sweeping context-setting openers and summary closers. Start and end on substance.
 - Signposting ("Now let's turn to..."). Just make the point.
+- **Troubleshooting written symptom-first as a run-on.** "Buttons do the wrong thing, so check which presets are saved" reads backwards and Brandon has called it out. Use a conditional: "If the buttons control the wrong things, check what you have saved in presets 1 through 4." Same for every entry in the list.
+- **Negative-definition asides** ("X cannot describe it", "the older model could not"). Say what the thing does, not what the other thing lacks: "WLED-MM can only chain panels into a single row. You need WLED 16.0.1 or newer for a 2x2 grid."
 
 ### Don't over-correct (what is NOT AI)
 

@@ -13,13 +13,14 @@ These are the Apollo/wiki-specific rules. For general prose voice (no em dashes,
 
 - Home Assistant "add-ons" are now called **"apps"** / **"App Store"** in Apollo wiki content. That's software only - Apollo *hardware* add-ons (sensor boards, expansions) stay "add-on".
 - **UI labels are verbatim.** Text inside bolded UI labels (button names, menu paths like **Add** or **Settings → Devices**) must exactly match the live GUI. Never reword them when editing docs.
+- **Never invent a UI label you haven't seen.** Writing a plausible-sounding label from upstream docs or inference ships wrong instructions that read as authoritative. Whole sections have been fabricated this way: a "Scrolling Text Tool" tab that is actually **Scrolling Text**, a "color palette" control that does not exist, a "Grid (across x tall)" field really labelled **rows x cols**. When you cannot verify a label, describe the action instead ("set the panel count") and tell Brandon which strings you could not confirm - he can usually screenshot it in seconds. A screenshot or screen recording is worth more than any amount of upstream documentation.
 - The starter kit is "ESPHome Starter Kit" in prose; "ESK-1" appears only in literal strings (hostnames, SSIDs, `apollo-esk-1`).
 - **Credit community members by name** when their shared setup/work is used ("Thanks to Donovan for sharing his setup"), never "a community member" - that reads as AI slop. (Apollo staff/maintainers stay unnamed in public content, per global rules.)
 - For user-visible copy with more than one reasonable phrasing, present 2-4 wording options and let Brandon pick.
 
 ## Wiki structure (mkdocs-material)
 
-- **Keep the sidebar short.** Only h2/h3 appear in the sidebar (toc_depth 3). Demote section headings to **h4** when they shouldn't appear in the sidebar. More than ~6 sidebar entries on a page is too many - tighten.
+- **Keep the sidebar short.** Only h2/h3 appear in the sidebar (toc_depth 3). Demote section headings to **h4** when they shouldn't appear in the sidebar. More than ~6 sidebar entries on a page is too many - tighten. Do this while writing the page, not after Brandon points at it: orienting headings like "Which One Do I Have?" or "What Next" are exactly the ones that belong at h4.
 - Sidebar entries must be succinct noun phrases, never long partial sentences. Headings are plain statements, no metaphor.
 - Use mkdocs-material features freely: annotations, content tabs, collapsible blocks, snippets. Brandon prefers **annotations over admonitions** - and never stack admonitions back-to-back (see `apollo-docs` gotchas). One caveat: the CloudCannon GUI can't edit annotations, so on pages Brandon maintains through CloudCannon, mention the limitation and let him choose.
 - URLs the reader should visit are hyperlinks with an imperative lead-in ("Open the [Device Builder](...)"), never bare URLs in code blocks.
