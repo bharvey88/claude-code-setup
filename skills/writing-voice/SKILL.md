@@ -1,6 +1,6 @@
 ---
 name: writing-voice
-description: General prose voice and anti-AI-tells rules for ANY user-facing writing for Brandon - blog posts (personal or Apollo), wiki pages, GitHub issues/PRs, community/forum/Discord replies, README and commit/PR descriptions. Load alongside any writing task. Apollo-specific formatting lives in apollo-writing-style; blog workflow lives in blog.
+description: General prose voice and anti-AI-tells rules for ANY user-facing writing for Brandon - blog posts (personal or Apollo), wiki pages, GitHub issues/PRs, community/forum/Discord replies, README and commit/PR descriptions - plus the rules for code comments Claude writes in any language. Load alongside any writing task, and before adding or editing a comment in source. Apollo-specific formatting lives in apollo-writing-style; blog workflow lives in blog; auditing comments already in a codebase is the comment-review skill.
 ---
 
 # Brandon's Writing Voice
@@ -42,6 +42,24 @@ De-slopping removes filler, not personality. Stripping too hard makes prose blan
 - A *single* em dash, formal vocabulary, or clean grammar is not proof of AI. The patterns above only matter when they cluster. Don't hunt one isolated instance into a worse sentence.
 - Preserve human signals: specific numbers and part names, an unresolved caveat, a dated reference ("since the 2024.x firmware"), a genuine aside, a blunt opinion.
 - Sentence variety is the goal, not uniform short sentences. A long sentence next to a three-word one reads human. Three medium sentences in a row do not.
+
+## Code comments
+
+Prose rules above cover writing aimed at people reading a page. These cover comments in source, which have a different failure mode: not slop, but restating what the code already says.
+
+Adapted from the [im-only-human](https://github.com/AlCalzone/im-only-human) rules. The full version, with the reasoning and examples behind each rule, is bundled at `C:\Users\bharv\.claude\skills\comment-review\references\im-only-human-comments-style.md`. Read it when a call is borderline. Don't restate it here; it gets updated upstream.
+
+- Most lines need no comment. Add one only for a non-obvious why, sitting next to the line it explains. If the names and the operation already show the intent, write nothing.
+- Same test when editing an existing comment: would deleting it lose a fact the code can't show? A comment that only reassures the reader a retry or fallback is safe protects them from nothing. Delete it rather than polishing it.
+- No history, no issue numbers, no "previously". That's what git blame and the PR body are for.
+- Don't teach the language. That `setInterval` takes milliseconds belongs in the reply, not the file. A less-common spec guarantee the code's correctness actually depends on, like `Map` iterating in insertion order right above code relying on it, does belong.
+- Imperative mood for an action the code takes right there: `Clamp`, `Reject`, `Copy`. Not `Clamps`, and not a subject-less fragment leaning on the declaration below it. A class-level or design comment stating a property is exempt.
+- State the rule, not the disaster it prevents. `// Clamp to 0xFF because the device rejects larger values`, not `// Values above 0xFF would be rejected, so clamp to 0xFF`.
+- No "X, not Y" contrast. State the true half.
+- If the comment exists to stop a future tidy-up, say "must". A neutral description of current behavior looks safe to delete.
+- One clause per sentence, with one exception: an action plus one trailing why joined by "so" or "because" is fine. Three or more facts chained by any mix of comma, colon, semicolon, "and", "which" gets split. This is stricter than the prose rules above, where sentence variety is the goal. Comments are scanned, not read.
+- Capitalize the first word. No trailing period on a one-liner. No capitalized NOT/NONE for emphasis.
+- `//` or `#` for ordinary comments, even across several lines. Reserve `/* */` for a short inline note with code continuing on the same line; it churns more in diffs.
 
 ## Process
 
