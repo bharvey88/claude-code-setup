@@ -11,6 +11,8 @@ General prose rules. They apply to everything user-facing, personal or work. Re-
 
 - **Never use em dashes.** Use commas, periods, or "X to Y" for ranges.
 - Terse beats thorough. Cut bulk before showing Brandon.
+- Shortening never upgrades certainty. A hedged finding stays hedged, an unknown stays unknown.
+- No figurative phrase where a literal one exists. If the phrase is false read literally, replace it.
 - Use contractions. "Don't", not "do not", unless emphasis demands it.
 - **US spellings.** behavior, color, labeled, canceled - not behaviour, colour, labelled. Brandon has corrected this; watch for it creeping into longer prose.
 
@@ -62,6 +64,13 @@ Adapted from the [im-only-human](https://github.com/AlCalzone/im-only-human) rul
 - `//` or `#` for ordinary comments, even across several lines. Reserve `/* */` for a short inline note with code continuing on the same line; it churns more in diffs.
 
 ## Process
+
+**Run the de-slop as visible tool calls, not as a silent read.** Grep the draft
+against the banned-word and structural lists and show the output. A pass you
+did "in your head" is a pass you skipped: on the 2026-08-18 ffmpeg post the
+silent version found nothing and the grep version found ten hits, including a
+banned "it isn't X, it's Y" and a three-metaphor cluster in one sentence. If
+there is no scan output in the transcript, the pass did not happen.
 
 - Write the draft, then do a de-slop pass against the lists above.
 - Then do a second read asking one question: "does this still read as obviously AI-generated?" Fix what survived the first pass.
