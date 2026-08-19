@@ -54,9 +54,21 @@ Inline body images (screenshots etc.): Brandon supplies those; leave a clear pla
 
 **Heads-up on `bun run check` on Windows:** `core.autocrlf=true` with no `.gitattributes` means biome flags every pre-existing file for CRLF line endings locally (the `␍` diff). That is Windows-only noise - the same tree passes on Linux CI, and git commits your post as LF. Don't "fix" those files. Just confirm your own post isn't in the error list (`bun x biome check <your-post>.md`) and that `bun run build` passes.
 
-## Phase 4: Workshop
+## Phase 4: De-slop, then workshop
 
-Show him the full draft in chat before committing. Expect de-slop rounds - he will flag anything that "reads like AI" and means it. Workshop wording with him rather than defending the draft.
+**Run the de-slop scans before Brandon sees the draft, not after.** `writing-voice`
+requires them as visible tool calls: grep the draft against the banned-word list
+and the structural tells, and show the output. Do both passes. Do not show him a
+draft you have only re-read.
+
+This phase is not where the slop gets caught. If Brandon is the one finding
+"load-bearing", "this is the part worth writing down", or a banned "it isn't X,
+it's Y" in a post that already shipped, the pass didn't run. That happened on the
+2026-08-18 ffmpeg post: the silent version found nothing, the grep version found
+ten hits.
+
+Then show him the full draft in chat before committing. He will still flag things,
+and he means it. Workshop wording with him rather than defending the draft.
 
 ## Phase 5: Ship and verify
 
