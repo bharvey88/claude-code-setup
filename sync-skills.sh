@@ -20,12 +20,12 @@ REPO_SKILLS="skills"
 scrub() {
   sed -E \
     -e 's/maintainer bdraco/a maintainer/g' \
-    -e 's/bdraco/a maintainer/g' \
+    -e 's/bdraco/a maintainer/g'     -e "s/softhack007's/a maintainer's/g"     -e 's/softhack007/a maintainer/g'     -e 's/DedeHai/a maintainer/g'     -e 's/willmmiles/a maintainer/g' \
     -e 's/[Tt]revor/a colleague/g' \
     -e 's/[Jj]ustin/a colleague/g'
 }
 # Safety-net pattern: any of these surviving the scrub means a new variant.
-LEFTOVER_RE='bdraco|[Tt]revor|[Jj]ustin'
+LEFTOVER_RE='bdraco|[Tt]revor|[Jj]ustin|softhack007|DedeHai|willmmiles'
 
 [ -d "$REPO_SKILLS" ] || { echo "run from the repo root (no ./skills here)"; exit 1; }
 [ -d "$LIVE" ] || { echo "live skills dir not found: $LIVE"; exit 1; }
