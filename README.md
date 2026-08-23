@@ -6,7 +6,7 @@ layer I built on top of it, shared so you can lift the parts that fit your own w
 
 Two things live here:
 
-1. **[`skills/`](skills/)** holds eleven skills I wrote. Each one is a workflow Claude loads
+1. **[`skills/`](skills/)** holds twelve skills I wrote. Each one is a workflow Claude loads
    automatically when the task matches, so I don't have to re-explain how I like things done.
 2. **[`memory-example/`](memory-example/)** is a sanitized demo of my file-based memory
    pattern, which is the part most people haven't seen before.
@@ -43,6 +43,8 @@ The ones in this repo:
   right file to keeping the build green.
 - **upstream-contrib** is how I file issues and PRs to other people's repos without being
   the annoying contributor.
+- **wled-docs** is the repo-specific playbook for contributing to the WLED wiki: verify every
+  claim against firmware source or a live device, then survive the bot and maintainer review.
 - **close** handles end-of-session cleanup.
 - **update-skills** teaches the setup something new after it gets a correction.
 

@@ -20,6 +20,7 @@ These live in [`skills/`](skills/). Each is a single `SKILL.md` with YAML frontm
 | [ha-dashboards](skills/ha-dashboards/SKILL.md) | Build and edit Lovelace dashboards: preview-then-swap for visual changes, compact card recipes, and the dashboard-tool gotchas. |
 | [apollo-yaml](skills/apollo-yaml/SKILL.md) | Walk an ESPHome firmware YAML change through an Apollo device repo: which file to edit, the traps that redden CI, version bump, local validation. |
 | [upstream-contrib](skills/upstream-contrib/SKILL.md) | File issues and PRs to upstream repos: show before submit, one change per PR, per-destination attribution rules. |
+| [wled-docs](skills/wled-docs/SKILL.md) | Contribute to the WLED wiki: source-verified claims, live-device proofs, CodeRabbit triage, maintainer review dynamics, mkdocs page-structure rules. |
 | [close](skills/close/SKILL.md) | End-of-session wrap-up. Square away memory, skills, and repo state before stopping. |
 | [update-skills](skills/update-skills/SKILL.md) | Fold new corrections and preferences from a session back into the right `SKILL.md` files and memory. |
 
