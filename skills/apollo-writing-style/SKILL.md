@@ -33,6 +33,8 @@ These are the Apollo/wiki-specific rules. For general prose voice (no em dashes,
 
 Docs are terse and plain. **Community posts (forum, social, giveaways) are warm, upbeat, celebratory** - a different register than the wiki, same anti-AI-tells rules.
 
+**Discord-bound text gets bare URLs, not markdown links** - Discord doesn't render `[text](url)`. The global markdown-hyperlinks rule applies everywhere else.
+
 ## Blog (smarthomesellout)
 
 Brandon's personal blog. It has its own skill with the full workflow and a voice sample - load `blog` instead. The general voice rules in `writing-voice` apply there too.

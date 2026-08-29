@@ -104,6 +104,23 @@ Maintainers sometimes ask Brandon to clear a PR by testing it on real hardware. 
 
 **Writing the report:** say what the test proves *and what it doesn't*. Black-box hammering cannot prove a use-after-free is gone; claim the working behavior (endpoint serves correct data, no deadlock between the two tasks, no regression, memory delta) and state the limit in one sentence. Include harness artifacts that turned out not to be PR bugs, flagged as such, rather than hiding them. Never quote a request tally from an aborted run - drop the number instead of inventing one.
 
+### esphome API/protocol changes (learned 2026-08-29, #18881/#18882)
+
+- **Live end-to-end demo before filing, when hardware exists.** Brandon held two ready PR chains until the feature ran on a real MTR-1 against a patched HA ("if we can test locally we need to do that first"). For user-visible features, build the demo path (device firmware + consuming client) as part of the work, not as an afterthought.
+- **Proto changes are a 3-repo chain:** esphome (api.proto + `script/api_protobuf/api_protobuf.py` regen), aioesphomeapi (its api.proto copy byte-identical + `script/gen-protoc`), then HA core. aioesphomeapi's PR template: proto changes must land in esphome first. New optional fields get `(field_ifdef) = "USE_..."` so unused = compiled out; codegen adds the define only when config uses the feature. Precedent to crib: #12136 (supports_response).
+- **Regen gotchas (Windows):** esphome's generator needs protoc on PATH plus venv aioesphomeapi >= the requirements.txt pin (older ones miss api_options attrs and crash). aioesphomeapi's regen wants the protoc whose bundled runtime matches the "Protobuf Python Version" header in api_pb2.py (6.30.0 -> protoc 30.0). Both write CRLF via write_text on Windows - normalize every generated file to LF before diffing/committing. Descriptor-offset churn across the whole api_pb2.py is normal.
+- **Integration tests (tests/integration/) run in WSL** with ~/esphome-test-venv; they consume the installed aioesphomeapi, so a PR whose test asserts new fields stays red in CI until the aioesphomeapi release + requirements.txt bump (state it in the PR body; #12136 did the same dance).
+- **Fork-referenced stacked PRs work fine** (no org membership needed): branch off the open parent's head, target dev, say "builds on #N; new diff is the second commit". The chained-pr label flow is the org-only thing.
+
+### HA core changes (WSL test env, learned 2026-08-29)
+
+- HA tests cannot run on Windows (`fcntl` import in the runner). WSL env: uv-managed Python (match `pyproject` floor, was 3.14.2), `uv pip install -e . -r requirements_test.txt` + the integration's manifest deps; extract extra per-domain deps from `requirements_all.txt` by its `# homeassistant.components.X` comments instead of whack-a-mole.
+- **Run `python -m script.translations develop --all` before any test that loads service descriptions** - without it teardown fails "Translation not found" on core services and a whole file looks broken (143 phantom errors vs 143 passed after).
+- **A locally-built aioesphomeapi in the HA venv gets silently clobbered** by any later install whose deps pin it (bleak-esphome). Reinstall and verify the import (`UserServiceArg(optional=...)`) immediately before trusting a test run or a live demo; AttributeError in `_async_register_service` at runtime = stale copy.
+- **WSL VM lifecycle bites twice:** when the last Windows-side handle exits, the VM idle-stops - killing nohup'd processes (dev hass died repeatedly) AND discarding unsynced disk writes (a venv install evaporated after its own success message). Long-lived processes: run attached under a session background task. After installs: `sync`. /tmp does not survive VM restarts.
+- **wsl.exe mangles argument paths** (MSYS rewrites /home, /tmp, even /mnt/c to C:/Program Files/Git/...). Pipe scripts via stdin: `printf '...' | wsl.exe -d Ubuntu -- bash`. Never pass POSIX paths as wsl.exe arguments from Git Bash.
+- Dev-HA-for-demo recipe: minimal config (homeassistant/frontend/config keys), add the ESPHome integration by IP, localhost:<port> reachable from Windows via WSL relay - but a Windows process squatting the port silently wins on one address family (stale session servers on 8123 did this); `Get-NetTCPConnection -LocalPort` first.
+
 ### esphome docs (esphome.io)
 
 - The docs repo is now **`esphome/esphome.io`** (Astro/Starlight, `.mdx` under `src/content/docs/components/`), NOT the old Sphinx `esphome-docs`. Brandon's fork is still named **`bharvey88/esphome-docs`** (forked before the rename; `gh repo fork` reports "already exists"). Default branch is **`current`**.
