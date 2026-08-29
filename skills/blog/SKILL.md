@@ -35,7 +35,7 @@ Rules:
 - First person, past tense, conversational. He's telling a friend what happened, not teaching a course.
 - Terse, concrete, no metaphor. "Won't work properly," not "will go dark."
 - Plain titles, not clever ones: "I cut my Home Assistant backups in half". Offer 2-4 title options before committing.
-- Headings are plain statements ("Excludes only stop new data", "What I actually ran", "Where it landed").
+- Headings are plain statements ("Excludes only stop new data", "What I actually ran"). **Never reuse this skill's example phrases verbatim in a post** - Brandon flagged a recycled "Where it landed" as AI slop (2026-08-29). Examples calibrate shape; they are not copy. Same for metaphor-leaning headings ("raised the bar", "missing lane") - the no-metaphor rule applies to headings hardest.
 - Numbers and specifics everywhere: "7GB down to about 3.6GB", "482 rows an hour", "10 to 20 minutes".
 - It's fine to end sections with what he's NOT doing yet ("I'm not there yet").
 - UI labels verbatim and bolded (**Developer Tools**, **Actions** tab).
