@@ -16,6 +16,21 @@ General prose rules. They apply to everything user-facing, personal or work. Re-
 - Use contractions. "Don't", not "do not", unless emphasis demands it.
 - **US spellings.** behavior, color, labeled, canceled - not behaviour, colour, labelled. Brandon has corrected this; watch for it creeping into longer prose.
 
+### Claims about other people's products (public docs, issues, READMEs)
+
+Brandon caught both of these in one session on a public README, so they're
+standing rules for anything published.
+
+- **Don't publish a criticism you can't prove.** "Its layout does not match the
+  diagram printed on the seller's carrier board" became "the header has no pin
+  labels, here's the verified layout." The mismatch was real in our build; that
+  the vendor's own artwork was *wrong* was never established. State what you
+  verified, not what it implies about someone's product.
+- **A reference for a different model is not a reference.** Linking another
+  device's teardown as the how-to for this device is worse than no link. If
+  the exact hardware isn't documented anywhere, say so and ask readers who
+  figure it out to open an issue.
+
 ### Banned tells (word/phrase level)
 
 - "delve", "realm", "underscore", "meticulous", "crucial", "robust", "seamless", "leverage", "game-changer", "elevate", "supercharge"
