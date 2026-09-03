@@ -11,6 +11,8 @@ Brandon expects this done autonomously through the HA MCP server. Do not ask him
 
 Make one cheap MCP call first (`ha_search` or `ha_get_entity`). If the HA tools are missing or erroring, say so immediately and ask Brandon to reconnect (`/mcp`) - do NOT fall back to unauthenticated LAN probing, browser automation, or asking him to paste console output. That fallback burned three sessions in one week; one authenticated call would have settled each.
 
+**If no HA MCP server is configured at all** (check `~/.claude.json` `mcpServers` at global and project scope, plus `.mcp.json`): MCP servers only attach at session start, so a reconnect cannot help mid-session. Ask Brandon for a long-lived access token instead (Profile, Security) and run a read-only probe with it; he has done this before (2026-09-03) and it settled everything the MCP would have. Never search the disk for token-shaped strings - the classifier blocks it and it is the wrong move anyway. Probe recipe: `pip install --user websockets`, then a python script taking `HA_TOKEN` from the environment: REST `GET /api/config`, `/api/states`, `/api/error_log` with a Bearer header; websocket `ws://homeassistant.local:8123/api/websocket` (auth message, then `config/device_registry/list`, `config/entity_registry/list`, `config/entity_registry/list_for_display`, `config_entries/get`, `lovelace/dashboards/list`, `lovelace/config` with `url_path`, `lovelace/resources`, any integration-specific `<domain>/...` commands). Dump to JSON in the scratchpad and analyse with python. Stay read-only unless he approves a write; the HA config SMB share is not reachable from his PC.
+
 ## Phase 1: Evidence first (no guessing, no fixes yet)
 
 1. Identify the automation/entity involved (`ha_search`, `ha_get_entity`). Confirm the entity/integration still exists before theorizing about it - he may have deleted it already.
@@ -46,6 +48,8 @@ Make one cheap MCP call first (`ha_search` or `ha_get_entity`). If the HA tools 
 - `ha_search` default `search_types` EXCLUDES dashboards - rename impact-analysis that skips `search_types=["dashboard"]` will declare "no stale references" and still break cards.
 - Trend-graph cards (mini-graph-card and friends) spin forever with no error when an entity has zero recorder history - and ONE dead entity poisons a shared multi-entity graph, not just its own series. Check recorder history before blaming the card.
 - `Failed to execute 'define' on 'CustomElementRegistry'` = the same card JS registered twice as a Lovelace resource (e.g. HACS-managed + a stray duplicate without the `hacstag` param), not a card bug.
+- **A card or strategy still misbehaving right after a HACS update is usually the OLD bundle still running in the browser**, even when `lovelace/resources` already lists the new `?v=`. The tab list of a strategy dashboard is computed client-side. Confirm in a private window (or companion app: Reset frontend cache) before chasing a code bug; on 2026-09-03 a "still 9 tabs" report after a fix was exactly this.
+- **Another integration can hold a second device-registry entry for the same hardware** with the manufacturer/model strings copied on (UniFi does this for every client it tracks by MAC). A device selector or custom strategy that matches on manufacturer/model alone lists the copy too; pin to the owning integration (`integration:` in the selector, or `hass.entities[*].platform` on the frontend).
 
 ## Phase 2: Fix
 
