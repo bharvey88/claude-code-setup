@@ -29,6 +29,9 @@ description: Workflow for filing GitHub issues and PRs to upstream/third-party r
 
 ### Commit mechanics from the Bash tool (learned 2026-08-22/23)
 
+- **Never chain `push` unconditionally after a validation step.** `validate; commit; push` shipped a broken commit to a public branch when validation failed (2026-09-05, hub75-studio) because the chain ran regardless. Gate it: `if ($code -eq 0) { commit; push } else { show errors }`.
+- **Single-branch clones (`git clone -b X`) only fetch-track X**, so `--force-with-lease` on any other branch fails with "stale info" (no lease baseline). Verify the remote tip yourself (`git fetch origin <branch>` + `git log FETCH_HEAD`), then push with an explicit baseline: `--force-with-lease=<branch>:<sha>`.
+
 - `git commit -F <(printf ...)` does NOT work from the Bash tool: git dies with `could not read log file '/proc/<pid>/fd/63'` and nothing is committed, while `; echo OK` afterwards still prints. Write the message to a real file in the scratchpad and `-F` that, then confirm with `git log -1`. This is the mechanism behind the CLAUDE.md "plain ASCII temp file" rule, not just a PowerShell quirk.
 - The `block-coauthor` PreToolUse hook decides "is this an Apollo repo" from the command text. A commit with the Apollo footer run from a scratch clone under `C:\tmp\` (no `apollo`/`ApolloAutomation` in the path) gets blocked. Put `echo "target repo: ApolloAutomation/<name>"` at the front of the command; the retry then passes. Remember the blocked command ran nothing, so re-include every step (a `sed` dropped on retry silently left a version bump unapplied once).
 

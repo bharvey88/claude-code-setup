@@ -42,6 +42,8 @@ Make one cheap MCP call first (`ha_search` or `ha_get_entity`). If the HA tools 
 **Integrations and registry:**
 - Integration with `source: import` + stuck in `setup_retry` + `supports_options: false` → delete and re-add the integration first; skip network forensics.
 - Reflashed/re-added devices leave **ghost device-registry entries**: same manufacturer/model, old entities permanently `unavailable`. Registry-based matching picks them up as real; a live device that's merely offline looks identical, so distinguishing needs Brandon's input.
+- **A battery Z-Wave sensor can die silently and keep its last state forever** (upstairs bathroom door sensor sat at "open" for 4 months and passed every "door open" guard). Symptoms: zero recorder changes over the full retention window, battery level frozen, node "asleep", a "system software failure" problem sensor on. Enable the node's `sensor.*_last_seen` (disabled by default) and read it - it gives the real last-contact date; any automation that trusts the sensor should ignore it when last-seen is stale.
+- Automations keep only 5 traces by default, so an incident from yesterday is gone; the logbook with `compact=false` still shows which automation turned an entity off (`context_entity_id`). Set `trace: stored_traces: 25` on automations you are debugging.
 - Some entity references live in raw YAML (packages, scripts) the MCP tools can't see. If MCP search finds no reference but something clearly uses the entity, hand Brandon a `grep -rn` to run on `/config` instead of guessing.
 
 **Dashboards and cards:**

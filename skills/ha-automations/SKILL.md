@@ -7,6 +7,21 @@ description: Author and edit Home Assistant automations, scripts, scenes, and he
 
 Brandon expects this done autonomously through the HA MCP server (`ha_config_set_automation` / `_script` / `_scene` / `_helper`) - create and validate via the config API, never hand him YAML snippets to paste or tell him to edit `configuration.yaml`. **Always load `home-assistant-best-practices` first** - it holds the native-condition/helper decision workflow and the safe-refactoring rules; this skill is his personal conventions layered on top. (That plugin skill is read-only - it's overwritten on updates, so durable additions land here, never there.)
 
+## The HA MCP server (ha-mcp, configured 2026-09-05)
+
+- User-scope `home-assistant` server in `~/.claude.json` (type http, ha-mcp 8.4.3). Loads at session start; a session started before it existed has no HA tools and needs a restart (`claude --continue` preserves the conversation).
+- Write tools are gated by a `BestPracticeKey` read-receipt: fetch it from `ha_get_skill_guide` (any reference file; the key is in the first line and **rotates hourly** - re-fetch on BPS_ACKNOWLEDGMENT_REQUIRED, don't retry a stale key). Pass `MandatoryBPS=false` after the first read.
+- `ha_config_set_automation` **reloads all automations = kills in-flight runs.** A run holding a snapshot/restore pair (paused ambient lighting, page snapshots) gets orphaned mid-way; after any automation config write during active hours, check what the killed run may have left behind.
+- `ha_import_blueprint overwrite=true` is the programmatic "Re-download blueprint"; WS command `blueprint/delete` (via ha_call_service ws_command) removes one.
+
+## Blueprint authoring (Brandon's bar, learned across ~20 revisions of gameday)
+
+- **Derive, don't ask.** Every input he was shown got challenged: entity pickers became a device picker, page names became runtime auto-detect, action names derived from the device, preset names became effect dropdowns, effect entities derived from the chosen lights. The form he accepted: one sensor + one device + optional dropdowns. When an input can be computed from another at runtime (device_entities, state_attr option matching), compute it; free-text inputs are a last resort with a working default.
+- Dropdowns only for universal values (WLED built-in effect names yes, user-created preset names no - blueprints cannot populate selectors from live data, so anything user-specific must be derived or defaulted, never typed).
+- **Stamp a version in the description** ("Blueprint version: N") and bump every push - it is the only way to tell which copy HA is running, and GitHub's raw CDN caches ~5 min so re-imports silently fetch stale copies (a brand-new file path skips the cache). Push, wait out the window, import, verify the stamp.
+- Renaming a blueprint file = a new blueprint to HA: import the new one, repoint the automation's `use_blueprint.path` via python_transform, `blueprint/delete` the old. Cheap only while there are no users.
+- Live-demo discipline: when Brandon is watching a test, demo exactly ONE change per run ("this time i just want to test 1 thing not 4"), announce the step list first, and remember hand-driven API pacing distorts timing - say so, and prefer letting the real automation run when judging speed/feel.
+
 ## Before writing: ground it in evidence
 
 - **Pull real history before choosing thresholds or logic** (`ha_get_history` on the entities and mode selectors involved). Base the design on how things actually behave, not assumption - he explicitly rewards this.
