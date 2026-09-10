@@ -15,6 +15,7 @@ General prose rules. They apply to everything user-facing, personal or work. Re-
 - No figurative phrase where a literal one exists. If the phrase is false read literally, replace it.
 - Use contractions. "Don't", not "do not", unless emphasis demands it.
 - **US spellings.** behavior, color, labeled, canceled - not behaviour, colour, labelled. Brandon has corrected this; watch for it creeping into longer prose.
+- **Public copy has no session in it.** Nothing a reader outside this conversation lacks: no "before kickoff", no "as we discussed", no reference to today's deadline or what was just fixed. An installer page caption once said "so you can see it before kickoff"; Brandon: "why is this on the screen". Reread every user-facing string as a stranger before shipping it.
 
 ### Claims about other people's products (public docs, issues, READMEs)
 
