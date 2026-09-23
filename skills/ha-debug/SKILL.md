@@ -43,6 +43,7 @@ Make one cheap MCP call first (`ha_search` or `ha_get_entity`). If the HA tools 
 - Integration with `source: import` + stuck in `setup_retry` + `supports_options: false` → delete and re-add the integration first; skip network forensics.
 - Reflashed/re-added devices leave **ghost device-registry entries**: same manufacturer/model, old entities permanently `unavailable`. Registry-based matching picks them up as real; a live device that's merely offline looks identical, so distinguishing needs Brandon's input.
 - **A battery Z-Wave sensor can die silently and keep its last state forever** (upstairs bathroom door sensor sat at "open" for 4 months and passed every "door open" guard). Symptoms: zero recorder changes over the full retention window, battery level frozen, node "asleep", a "system software failure" problem sensor on. Enable the node's `sensor.*_last_seen` (disabled by default) and read it - it gives the real last-contact date; any automation that trusts the sensor should ignore it when last-seen is stale.
+- **`zwave_js.set_value` → `NotFoundError: Value <node>-<cc>-<ep>-<prop>-<key> not found on node`** means that value ID is missing from the node's value list, not that the device rejected it. zwave-js-server-python refuses to send a set for any value it doesn't have (only Basic CC is exempt). Some values only appear after the device reports them; the Indicator CC `timeout` key is one (Ring Keypad exit/entry delay, 2026-09-23). Fix: `zwave_js.invoke_cc_api` calls the CC API directly and skips the lookup. Don't file it upstream as a zwave-js bug.
 - Automations keep only 5 traces by default, so an incident from yesterday is gone; the logbook with `compact=false` still shows which automation turned an entity off (`context_entity_id`). Set `trace: stored_traces: 25` on automations you are debugging.
 - Some entity references live in raw YAML (packages, scripts) the MCP tools can't see. If MCP search finds no reference but something clearly uses the entity, hand Brandon a `grep -rn` to run on `/config` instead of guessing.
 
@@ -61,5 +62,8 @@ Make one cheap MCP call first (`ha_search` or `ha_get_entity`). If the HA tools 
 ## Phase 3: Verify
 
 - Re-run or trigger the scenario where possible (fire the trigger, toggle the helper, `ha_call_service`) and confirm via a fresh trace/history that it now behaves.
+- Steps with `continue_on_error: true` still let the run finish as "finished" when they fail. Read the per-step trace for `error` keys before calling a loop clean.
+- For physical effects (sounds, lights, keypad prompts) the trace only proves the command was accepted. Ask Brandon what he saw or heard; on 2026-09-23 an accepted Indicator CC call showed the bar but played no sound.
+- When Brandon says to run the real scenario (arm the alarm, fire the device), run the whole thing through to the end state. Stopping early to be safe (disarming mid-exit-delay) left him thinking it never worked; he had to ask for it again.
 - Be timestamp-precise: "no new warnings" is not proof. Confirm Brandon's real-world action (e.g. "you shook the cube at 15:53:34") lands AFTER the last bad log line.
 - Tell Brandon plainly: what was wrong, what changed, and what you observed in verification.
