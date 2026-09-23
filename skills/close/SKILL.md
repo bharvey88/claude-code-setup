@@ -14,6 +14,7 @@ Reconstruct what the session touched, grounded in tools, not recall:
 - Per repo touched: `git status --short`, and `git log --oneline @{u}..` for unpushed commits. **Local work Brandon reviewed is not live until pushed**; say so explicitly if anything is unpushed.
 - For repos that auto-deploy on push (wiki, classes, blog): `gh run list --limit 3` to confirm the deploy actually went green. Pushed but red is not shipped.
 - List actions that were denied, blocked, or promised-but-skipped this session. These get reported in phase 4, never silently dropped.
+- If a touched repo has a HANDOFF.md, update it before closing: dated state, decisions, next steps, then commit and push it. This is separate from any code commit the session already made; do it even if there is nothing else to commit.
 
 ## Phase 2: Memory and skill hygiene
 

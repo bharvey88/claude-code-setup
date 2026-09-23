@@ -5,7 +5,7 @@ description: Write and publish a blog post on smarthomesellout.com for Brandon. 
 
 # smarthomesellout Blog Post
 
-Repo: `C:\Users\bharv\development\smarthomesellout` (Astro 6 + Bun + Cloudflare Workers). **Read the repo's CLAUDE.md first** - it owns the stack, schema-lock, and deploy rules. This skill owns the writing workflow and voice.
+Repo: `~/development/smarthomesellout` on this Mac (`C:\Users\bharv\development\smarthomesellout` on the Windows box); clone from `bharvey88/smarthomesellout` if absent. (Astro 6 + Bun + Cloudflare Workers). **Read the repo's CLAUDE.md first** - it owns the stack, schema-lock, and deploy rules. This skill owns the writing workflow and voice.
 
 ## Apollo disclosure (always)
 
@@ -46,7 +46,7 @@ Rules:
 
 **Cover image.** Brandon supplies his own (usually a phone photo from Downloads, 3-5 MB). Don't ship it raw and don't just leave a placeholder - resize it yourself:
 
-1. Copy/resize into `public/images/blog/<name>.jpg`, **1600px on the long edge, JPEG quality 80, EXIF orientation applied** (`ImageOps.exif_transpose`). That lands ~300-700 KB, matching the existing covers. PIL is available at `C:\Users\bharv\esphome-venv\Scripts\python.exe` (the old C:\esphome-build venv is gone).
+1. Copy/resize into `public/images/blog/<name>.jpg`, **1600px on the long edge, JPEG quality 80, EXIF orientation applied** (`ImageOps.exif_transpose`). That lands ~300-700 KB, matching the existing covers. PIL: on this Mac use `python3` (Pillow is installed); on the Windows box it's `C:\Users\bharv\esphome-venv\Scripts\python.exe`.
 2. Reference it in frontmatter as `cover: /images/blog/<name>.jpg`. It renders as the post header (`BlogLayout.astro`). Do NOT put it inline in the body.
 3. The OG/social image is separate - auto-generated per slug at build by `scripts/gen-og.ts` into `public/og/` (gitignored). You don't supply it; just confirm the social embed renders during the live check.
 
