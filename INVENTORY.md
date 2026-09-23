@@ -60,6 +60,10 @@ not what I assumed rendered. frontend-design sets aesthetic direction for new UI
 **Home Assistant.** home-assistant-best-practices pushes native constructs over templates,
 `entity_id` over `device_id`, correct automation modes, and dashboard guidance.
 
+**Home network.** unifi-network and unifi-protect are Ubiquiti's official plugins for the
+UniFi Network controller and the Protect NVR: clients, firewall policies, Wi-Fi settings,
+cameras, and detection events, read and changed from the session instead of the web UI.
+
 I periodically audit which of these I actually invoke and turn off the ones I don't. A plugin
 that sits unused still spends context on every session, so the list stays shorter than the
 list of plugins that looked appealing at install time.
