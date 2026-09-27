@@ -15,6 +15,7 @@ Reconstruct what the session touched, grounded in tools, not recall:
 - For repos that auto-deploy on push (wiki, classes, blog): `gh run list --limit 3` to confirm the deploy actually went green. Pushed but red is not shipped.
 - List actions that were denied, blocked, or promised-but-skipped this session. These get reported in phase 4, never silently dropped.
 - If a touched repo has a HANDOFF.md, update it before closing: dated state, decisions, next steps, then commit and push it. This is separate from any code commit the session already made; do it even if there is nothing else to commit.
+- **Never commit handoffs or session notes to a public repo.** Check `gh repo view --json visibility` before pushing any HANDOFF, spec, plan or review. Public repos keep notes in their designated private place (Game Day firmware: the private `gameday-notes` repo, loaded via a gitignored `CLAUDE.local.md`), even if the public repo's own CLAUDE.md says otherwise. Brandon, 2026-09-26: "i dont want handoffs in the repo ever again this is a public repo".
 
 ## Phase 2: Memory and skill hygiene
 
