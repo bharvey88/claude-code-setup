@@ -1,6 +1,6 @@
 ---
 name: writing-voice
-description: General prose voice and anti-AI-tells rules for ANY user-facing writing for Brandon - blog posts (personal or Apollo), wiki pages, GitHub issues/PRs, community/forum/Discord replies, README and commit/PR descriptions - plus the rules for code comments Claude writes in any language. Load alongside any writing task, and before adding or editing a comment in source. Apollo-specific formatting lives in apollo-writing-style; blog workflow lives in blog; auditing comments already in a codebase is the comment-review skill.
+description: General prose voice and anti-AI-tells rules for ANY user-facing writing for Brandon - blog posts, wiki pages, GitHub issues/PRs, community/forum/Discord replies, README and commit/PR descriptions - plus the rules for code comments Claude writes in any language. Load alongside any writing task, and before adding or editing a comment in source. Blog workflow lives in blog; auditing comments already in a codebase is the comment-review skill.
 ---
 
 # Brandon's Writing Voice

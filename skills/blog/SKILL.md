@@ -7,16 +7,6 @@ description: Write and publish a blog post on smarthomesellout.com for Brandon. 
 
 Repo: `~/development/smarthomesellout` on this Mac (`C:\Users\bharv\development\smarthomesellout` on the Windows box); clone from `bharvey88/smarthomesellout` if absent. (Astro 6 + Bun + Cloudflare Workers). **Read the repo's CLAUDE.md first** - it owns the stack, schema-lock, and deploy rules. This skill owns the writing workflow and voice.
 
-## Apollo disclosure (always)
-
-Brandon works for Apollo Automation. Any post that names or discusses an Apollo device (CAST-1, radar/MTR, AIR-1, etc.) or Apollo the company MUST carry a disclosure that he works there. Put it as an italic line at the top of the post body, right after the frontmatter, before the first paragraph:
-
-```
-*Disclosure: I work for Apollo Automation. <device-context sentence>*
-```
-
-Base line is always `Disclosure: I work for Apollo Automation.` Add a short context sentence when the post is about a specific device ("The CAST-1 is one of our devices and this is firmware I work on.") or tie it to the mention ("The radar devices I mention below are ours."). Plain voice, no em dashes. This applies to incidental mentions too, not just posts that are about an Apollo product.
-
 ## Phase 1: Source material
 
 Posts document something Brandon actually did. He often says "look at our previous chats about X" - search session transcripts and memory for the real details (actual numbers, actual commands, actual mistakes). Never pad with generic advice he didn't live through. The mistakes and dead ends ARE the content ("a couple things that wasted my time so they don't waste yours").
@@ -25,7 +15,7 @@ Drafts started on Brandon's laptop arrive under-cooked - that machine doesn't ha
 
 ## Phase 2: Voice (the part he rewrites every time it's wrong)
 
-Load `writing-voice` for the general rules (no em dashes, banned tells, structural tells, the two-pass de-slop). The rules below are blog-specific on top of that. This is a personal blog, not Apollo, so it does NOT use `apollo-writing-style`.
+Load `writing-voice` for the general rules (no em dashes, banned tells, structural tells, the two-pass de-slop). The rules below are blog-specific on top of that.
 
 Calibrate against this excerpt from a published post:
 

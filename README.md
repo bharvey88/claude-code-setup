@@ -1,12 +1,12 @@
 # claude-code-setup
 
 How I've wired [Claude Code](https://claude.com/claude-code) for real work: shipping
-firmware, publishing docs, debugging Home Assistant, and writing. This repo is the custom
+firmware, debugging Home Assistant, and writing. This repo is the custom
 layer I built on top of it, shared so you can lift the parts that fit your own work.
 
 Two things live here:
 
-1. **[`skills/`](skills/)** holds twelve skills I wrote. Each one is a workflow Claude loads
+1. **[`skills/`](skills/)** holds nine skills I wrote. Each one is a workflow Claude loads
    automatically when the task matches, so I don't have to re-explain how I like things done.
 2. **[`memory-example/`](memory-example/)** is a sanitized demo of my file-based memory
    pattern, which is the part most people haven't seen before.
@@ -23,10 +23,6 @@ of explaining "here's how we publish the wiki" every single time, I write it dow
 
 The ones in this repo:
 
-- **apollo-docs** runs the whole publish chain for a mkdocs-material wiki, from branch to
-  live deploy verification.
-- **apollo-writing-style** keeps product-facing text consistent with the naming and
-  formatting conventions I use.
 - **writing-voice** is my prose voice and anti-AI-tells rules. I run it on everything public,
   including this README.
 - **blog** turns a session into a finished post.
@@ -39,18 +35,12 @@ The ones in this repo:
 - **ha-dashboards** builds my Lovelace dashboards the way I like them: compact cards,
   preview cards added next to the original so I can compare live before anything gets
   replaced, and the card recipes that survived my own A/B testing.
-- **apollo-yaml** walks a firmware YAML change through an Apollo device repo, from picking the
-  right file to keeping the build green.
 - **upstream-contrib** is how I file issues and PRs to other people's repos without being
   the annoying contributor.
 - **wled-docs** is the repo-specific playbook for contributing to the WLED wiki: verify every
   claim against firmware source or a live device, then survive the bot and maintainer review.
 - **close** handles end-of-session cleanup.
 - **update-skills** teaches the setup something new after it gets a correction.
-
-The Apollo-named ones reference public [Apollo Automation](https://github.com/ApolloAutomation)
-repos and are shared as working examples. I stripped out coworkers' names but left the
-mechanics untouched.
 
 ## The memory pattern
 
