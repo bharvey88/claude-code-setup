@@ -42,6 +42,7 @@ standing rules for anything published.
 - "serves as", "stands as", "acts as" used to dodge a plain "is"
 - Elegant variation: cycling synonyms for the same noun across a paragraph (the sensor / the device / the unit / the product). Pick one word and repeat it.
 - Sycophantic openers and chatbot artifacts: "Great question!", "I hope this helps!", "Happy to help!", "Certainly!"
+- Form-letter customer-service phrases: "We apologize for any inconvenience", "Please provide", "To proceed", "Thank you for reaching out", "reach out", "Rest assured", "Don't hesitate to", "valued customer". Customer email from Brandon is first person ("I", not "we"), uses contractions, says sorry like a person and states the next step. He called a correct but formal support reply "robotic" (2026-10-06, Game Day help desk); the help desk's `src/slop.ts` carries the same list for AI drafts.
 - Hedge stacks: "could potentially possibly", "may sometimes help to". One qualifier max.
 
 ### Structural tells (these read as AI even with clean words)
