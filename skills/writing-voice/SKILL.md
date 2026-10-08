@@ -86,6 +86,11 @@ the fix plan, ending in "fw · M3 · M".
   "fw · M3 · M" in the body repeats them.
 - **Updates go in comments**, not edits to the top. A comment is dated and
   starts with what changed: "Fixed on a branch, PR #26." Then the evidence.
+- **Edit a comment by its ID, never with `--edit-last`.** Every Claude session
+  posts as bharvey88, so `gh issue comment --edit-last` can rewrite another
+  session's newer comment (it overwrote the multi-sport session's GD-76 update
+  on 2026-10-08). Keep the `#issuecomment-<id>` from the URL gh prints and use
+  `gh api -X PATCH repos/<owner>/<repo>/issues/comments/<id>`.
 - **Spell it out once:** PSRAM, OTA and the like get a few plain words the first
   time ("the panel's extra memory (PSRAM)").
 - **Run the banned-tell scan on cards too.** Same rules as everywhere else.
