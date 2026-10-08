@@ -62,6 +62,34 @@ De-slopping removes filler, not personality. Stripping too hard makes prose blan
 - Preserve human signals: specific numbers and part names, an unresolved caveat, a dated reference ("since the 2024.x firmware"), a genuine aside, a blunt opinion.
 - Sentence variety is the goal, not uniform short sentences. A long sentence next to a three-word one reads human. Three medium sentences in a row do not.
 
+## Board cards and tracking issues
+
+Cards on the Game Day board (gameday-scoreboard/backlog issues) and any issue
+Brandon tracks work in. He reads them on his phone between other things.
+On 2026-10-07 he called a card "written by a bot not a person": one paragraph
+holding the symptom, a device name, a version, a log line, heap numbers and
+the fix plan, ending in "fw · M3 · M".
+
+- **Title:** the card ID and the problem or outcome in plain words.
+  "GD-74 Team logos freeze the panel", not "GD-74 Logo downloads freeze the
+  panel: each card switch re-fetches...".
+- **Body, in this order, with these headings:**
+  - `**What's wrong**` (or `**Why**` for a feature): two or three sentences a
+    customer could follow. Who sees it and what they see.
+  - `**Done when**`: a short checklist of things you can observe. "No freezes
+    in 30 minutes of favorites", not "refactor the fetch path".
+  - `**Notes**`: the evidence and the plan, one fact per bullet. Log lines and
+    file paths in backticks. Device names, versions and numbers live here,
+    never in the first section.
+  - `**Links**`: PRs, public issues, related cards.
+- **No metadata footer.** Area, Phase, Size, Who and Priority are board fields;
+  "fw · M3 · M" in the body repeats them.
+- **Updates go in comments**, not edits to the top. A comment is dated and
+  starts with what changed: "Fixed on a branch, PR #26." Then the evidence.
+- **Spell it out once:** PSRAM, OTA and the like get a few plain words the first
+  time ("the panel's extra memory (PSRAM)").
+- **Run the banned-tell scan on cards too.** Same rules as everywhere else.
+
 ## Code comments
 
 Prose rules above cover writing aimed at people reading a page. These cover comments in source, which have a different failure mode: not slop, but restating what the code already says.
