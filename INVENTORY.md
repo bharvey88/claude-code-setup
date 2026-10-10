@@ -45,11 +45,7 @@ screens risky commands before they run. Both fire constantly and I never think a
 which is the point.
 
 **Code review.** pr-review-toolkit gives me `review-pr` plus specialized reviewer agents for
-silent failures, type design, test coverage, and comment accuracy. coderabbit adds its own
-AI review pass on a diff or PR, a second opinion from a different model.
-
-**Web.** firecrawl fetches and searches the web as clean markdown, including pages that need
-JavaScript to render, for research and reading docs.
+silent failures, type design, test coverage, and comment accuracy.
 
 **Browser and UI.** playwright drives a real browser for verifying what actually rendered,
 not what I assumed rendered. frontend-design sets aesthetic direction for new UI.
