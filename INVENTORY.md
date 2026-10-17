@@ -19,6 +19,7 @@ These live in [`skills/`](skills/). Each is a single `SKILL.md` with YAML frontm
 | [upstream-contrib](skills/upstream-contrib/SKILL.md) | File issues and PRs to upstream repos: show before submit, one change per PR, per-destination attribution rules. |
 | [wled-docs](skills/wled-docs/SKILL.md) | Contribute to the WLED wiki: source-verified claims, live-device proofs, CodeRabbit triage, maintainer review dynamics, mkdocs page-structure rules. |
 | [close](skills/close/SKILL.md) | End-of-session wrap-up. Square away memory, skills, and repo state before stopping. |
+| [supercharge](skills/supercharge/SKILL.md) | Rewrite a prompt into a more ambitious one before it runs: altitude, depth and range, after Felix Rieseberg's "How to be more ambitious". |
 | [update-skills](skills/update-skills/SKILL.md) | Fold new corrections and preferences from a session back into the right `SKILL.md` files and memory. |
 
 ## The memory pattern
