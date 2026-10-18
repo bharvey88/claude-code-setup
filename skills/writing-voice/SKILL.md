@@ -126,4 +126,5 @@ there is no scan output in the transcript, the pass did not happen.
 - Write the draft, then do a de-slop pass against the lists above.
 - Then do a second read asking one question: "does this still read as obviously AI-generated?" Fix what survived the first pass.
 - If sentences could be reordered without anyone noticing, they're filler. Cut them.
+- Last check before sending: read only the first line and the last line. If they don't say what to do next and what just happened, fix those two lines.
 - Stop there. Don't keep "humanizing" past the point of natural, see the over-correct rules above.

@@ -46,14 +46,10 @@ screens risky commands before they run. Both fire constantly and I never think a
 which is the point.
 
 **Code review.** pr-review-toolkit gives me `review-pr` plus specialized reviewer agents for
-silent failures, type design, test coverage, and comment accuracy. coderabbit runs CodeRabbit's
-review on local changes and can apply its fixes.
+silent failures, type design, test coverage, and comment accuracy.
 
 **Browser and UI.** playwright drives a real browser for verifying what actually rendered,
 not what I assumed rendered. frontend-design sets aesthetic direction for new UI.
-
-**Web research.** firecrawl scrapes, searches and crawls the web into clean text, for pages a
-plain fetch can't read well.
 
 **Home Assistant.** home-assistant-best-practices pushes native constructs over templates,
 `entity_id` over `device_id`, correct automation modes, and dashboard guidance.
