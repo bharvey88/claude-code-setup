@@ -12,7 +12,7 @@ Two things live here:
    pattern, which is the part most people haven't seen before.
 
 The [full inventory](INVENTORY.md) also catalogs the public plugins I layer on top, like
-superpowers, pr-review-toolkit, and playwright, with links to install them.
+pr-review-toolkit, playwright, and ralph-wiggum, with links to install them.
 
 ## What a skill is
 

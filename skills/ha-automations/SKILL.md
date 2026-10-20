@@ -31,6 +31,10 @@ Brandon expects this done autonomously through the HA MCP server (`ha_config_set
 - For Zigbee buttons/remotes: ZHA → `event` trigger with `device_ieee`; Z2M → `device` or `mqtt` trigger. Watch numeric-string coercion on button payloads (see ha-debug).
 - New multi-sensor/climate devices: check the generated entity IDs before wiring them anywhere - a device named after its area produces doubled slugs (`sensor.living_room_living_room_climate_*`), which he wants renamed before they're referenced. His light groups are a deliberate 4-layer hierarchy (leaf / `*_group` / `*_all` / top-level `*_lights`) - don't "fix" them.
 
+## New integrations: trim entities before building on them
+
+When an integration creates a pile of entities (Unraid Management Agent made 124 on 2026-10-19), list them, keep only what alerts and dashboards actually use, disable the rest, and turn on the entry's `pref_disable_new_entities` (WS `config_entries/update`) so an update doesn't bring a new batch back. He called the full set spamming the database. Fast-changing sensors (CPU, RAM, network every 15 to 30 s) stay off unless a dashboard needs their history; say the row cost when proposing them. `ha_set_entity enabled=false` works one entity per call; the registry-update WS command is blocked.
+
 ## Brandon's authoring checklist (apply every time)
 
 1. **Aliases on everything** - set `alias:` on every trigger, condition, choose-option, and action so the visual editor and trace timeline read like sentences.

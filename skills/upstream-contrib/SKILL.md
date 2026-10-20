@@ -7,7 +7,7 @@ description: Workflow for filing GitHub issues and PRs to upstream/third-party r
 
 ## Hard gates (Brandon has corrected these many times)
 
-1. **Show before submit.** Always show the complete, final issue/PR title and body verbatim and get explicit approval before `gh issue create` / `gh pr create`. No exceptions, even for small issues.
+1. **Show before submit.** Always show the complete, final issue/PR title and body verbatim and get explicit approval before `gh issue create` / `gh pr create`. No exceptions, even for small issues. Put the draft text in the chat message itself, before the question: a draft written only to a file never reaches him (the app's next-step box ends the turn, and Remote Control shows no files), and he then approves text he hasn't seen (2026-10-19, three times on tinkerologie/unraid-management-agent).
 2. **One logical change per issue/PR.** ESPHome maintainers reject mashed-together PRs. If the work contains multiple independent changes, split into separate atomic issues/PRs and say so up front.
 3. **Attribution:**
    - **Everywhere (esphome, bharvey88 repos, third-party)**: no Claude footer AND no co-author trailer. No Claude credit of any kind.
@@ -43,6 +43,13 @@ description: Workflow for filing GitHub issues and PRs to upstream/third-party r
 - esphome/esphome, including hardware-testing someone else's PR and API/protocol changes: `references/esphome.md`
 - Home Assistant core (WSL test env): `references/ha-core.md`
 - esphome.io docs: `references/esphome-docs.md`
+
+### tinkerologie/unraid-management-agent (Go Unraid plugin behind the HA integration)
+
+- Issue first (bug form), wait for CodeRabbit's Coding Plan on it, follow the plan, open the PR as `--draft`, mark ready after governance passes. The first PR's CI waits for maintainer approval.
+- Can't be checked out on Windows (colons in `testdata` paths). Work on claude-vm in `~/src/unraid-management-agent` (Go 1.27.2 at `/usr/local/go`, golangci-lint, goimports, pre-commit installed). Verify against the real tower by running the built binary briefly: `--port=18043 --bind-address=127.0.0.1 --read-only --discovery-enabled=false` (discovery off, or HA pops a duplicate "Tower").
+- Merge gate is every check green, not the approval: the owner approved #286 and still waited on `codecov/patch` (90% of changed lines) and CodeRabbit's "Tests Cover Changed Code", which wants the changed function itself tested, not just a helper split out of it. Make file paths injectable via a struct field set in the constructor (`NotificationCollector.dynamixCfgPath` pattern) and test the success and error paths. CodeRabbit also warns on missing doc comments for touched functions, test functions included.
+- Two open PRs must not both edit `CHANGELOG.md`; wait for the first to merge.
 
 ### wled/WLED-Docs
 
